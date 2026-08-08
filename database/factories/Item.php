@@ -23,6 +23,9 @@ class Item extends Factory
     {
         $types = ['product', 'service'];
 
+        $categories = $this->company->categories()->item()->get();
+        $category_id = $categories->count() ? $categories->random(1)->pluck('id')->first() : \App\Models\Setting\Category::factory()->item()->create(['company_id' => $this->company->id])->id;
+
         return [
             'company_id' => $this->company->id,
             'type' => $this->faker->randomElement($types),
@@ -30,7 +33,7 @@ class Item extends Factory
             'description' => $this->faker->text(100),
             'purchase_price' => $this->faker->randomFloat(2, 10, 20),
             'sale_price' => $this->faker->randomFloat(2, 10, 20),
-            'category_id' => $this->company->categories()->item()->get()->random(1)->pluck('id')->first(),
+            'category_id' => $category_id,
             'enabled' => $this->faker->boolean ? 1 : 0,
             'created_from' => 'core::factory',
         ];

@@ -69,10 +69,13 @@ class Document extends AbstractFactory
 
             $statuses = ['draft', 'sent', 'viewed', 'partial', 'paid', 'cancelled'];
 
+            $income_categories = $this->company->categories()->income()->get();
+            $income_category_id = $income_categories->count() ? $income_categories->random(1)->pluck('id')->first() : Category::factory()->income()->create(['company_id' => $this->company->id])->id;
+
             return [
                 'type' => Model::INVOICE_TYPE,
                 'document_number' => $this->getDocumentNumber(Model::INVOICE_TYPE, $contact),
-                'category_id' => $this->company->categories()->income()->get()->random(1)->pluck('id')->first(),
+                'category_id' => $income_category_id,
                 'contact_id' => $contact->id,
                 'contact_name' => $contact->name,
                 'contact_email' => $contact->email,
@@ -100,10 +103,13 @@ class Document extends AbstractFactory
 
             $statuses = ['draft', 'received', 'partial', 'paid', 'cancelled'];
 
+            $expense_categories = $this->company->categories()->expense()->get();
+            $expense_category_id = $expense_categories->count() ? $expense_categories->random(1)->pluck('id')->first() : Category::factory()->expense()->create(['company_id' => $this->company->id])->id;
+
             return [
                 'type' => Model::BILL_TYPE,
                 'document_number' => $this->getDocumentNumber(Model::BILL_TYPE, $contact),
-                'category_id' => $this->company->categories()->expense()->get()->random(1)->pluck('id')->first(),
+                'category_id' => $expense_category_id,
                 'contact_id' => $contact->id,
                 'contact_name' => $contact->name,
                 'contact_email' => $contact->email,

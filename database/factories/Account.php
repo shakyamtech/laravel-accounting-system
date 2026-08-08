@@ -23,12 +23,15 @@ class Account extends Factory
     {
         $types = ['bank', 'credit_card'];
 
+        $currencies = $this->company->currencies()->enabled()->get();
+        $currency_code = $currencies->count() ? $currencies->random(1)->pluck('code')->first() : default_currency();
+
         return [
             'company_id' => $this->company->id,
             'type' => $this->faker->randomElement($types),
             'name' => $this->faker->text(15),
             'number' => (string) $this->faker->iban(),
-            'currency_code' => $this->company->currencies()->enabled()->get()->random(1)->pluck('code')->first(),
+            'currency_code' => $currency_code,
             'opening_balance' => '0',
             'bank_name' => $this->faker->text(15),
             'bank_phone' => $this->faker->phoneNumber,

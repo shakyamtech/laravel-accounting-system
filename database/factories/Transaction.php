@@ -49,7 +49,20 @@ class Transaction extends Factory
             'currency_code' => default_currency(),
             'currency_rate' => '1.0',
             'description' => $this->faker->text(5),
-            'category_id' => $this->company->categories()->$category_type()->get()->random(1)->pluck('id')->first(),
+        $categories = $this->company->categories()->$category_type()->get();
+        $category_id = $categories->count() ? $categories->random(1)->pluck('id')->first() : \App\Models\Setting\Category::factory()->$category_type()->create(['company_id' => $this->company->id])->id;
+
+        return [
+            'company_id' => $this->company->id,
+            'type' => $this->type,
+            'number' => $this->getNumber($this->type),
+            'account_id' => setting('default.account'),
+            'paid_at' => $this->faker->dateTimeBetween(now()->startOfYear(), now()->endOfYear())->format('Y-m-d H:i:s'),
+            'amount' => $this->faker->randomFloat(2, 1, 1000),
+            'currency_code' => default_currency(),
+            'currency_rate' => '1.0',
+            'description' => $this->faker->text(5),
+            'category_id' => $category_id,
             'reference' => $this->faker->text(5),
             'payment_method' => setting('default.payment_method'),
             'created_from' => 'core::factory',
@@ -72,11 +85,14 @@ class Transaction extends Factory
                 $contact = Contact::factory()->customer()->enabled()->create();
             }
 
+            $income_categories = $this->company->categories()->income()->get();
+            $income_category_id = $income_categories->count() ? $income_categories->random(1)->pluck('id')->first() : \App\Models\Setting\Category::factory()->income()->create(['company_id' => $this->company->id])->id;
+
             return [
                 'type' => 'income',
                 'number' => $this->getNumber('income', '', $contact),
                 'contact_id' => $contact->id,
-                'category_id' => $this->company->categories()->income()->get()->random(1)->pluck('id')->first(),
+                'category_id' => $income_category_id,
             ];
         });
     }
@@ -97,11 +113,14 @@ class Transaction extends Factory
                 $contact = Contact::factory()->vendor()->enabled()->create();
             }
 
+            $expense_categories = $this->company->categories()->expense()->get();
+            $expense_category_id = $expense_categories->count() ? $expense_categories->random(1)->pluck('id')->first() : \App\Models\Setting\Category::factory()->expense()->create(['company_id' => $this->company->id])->id;
+
             return [
                 'type' => 'expense',
                 'number' => $this->getNumber('expense', '', $contact),
                 'contact_id' => $contact->id,
-                'category_id' => $this->company->categories()->expense()->get()->random(1)->pluck('id')->first(),
+                'category_id' => $expense_category_id,
             ];
         });
     }
