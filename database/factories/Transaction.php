@@ -39,16 +39,6 @@ class Transaction extends Factory
 
         $category_type = in_array($this->type, $this->getIncomeTypes()) ? 'income' : 'expense';
 
-        return [
-            'company_id' => $this->company->id,
-            'type' => $this->type,
-            'number' => $this->getNumber($this->type),
-            'account_id' => setting('default.account'),
-            'paid_at' => $this->faker->dateTimeBetween(now()->startOfYear(), now()->endOfYear())->format('Y-m-d H:i:s'),
-            'amount' => $this->faker->randomFloat(2, 1, 1000),
-            'currency_code' => default_currency(),
-            'currency_rate' => '1.0',
-            'description' => $this->faker->text(5),
         $categories = $this->company->categories()->$category_type()->get();
         $category_id = $categories->count() ? $categories->random(1)->pluck('id')->first() : \App\Models\Setting\Category::factory()->$category_type()->create(['company_id' => $this->company->id])->id;
 
