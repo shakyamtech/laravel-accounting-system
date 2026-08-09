@@ -1,68 +1,63 @@
 # Laravel Accounting App
 
-A feature-rich, self-hosted accounting and financial management web application built with **Laravel**, **Livewire**, and **Tailwind CSS**.
+An open-source, self-hosted accounting and financial management platform built with Laravel, Livewire, and Tailwind CSS.
 
----
+## Features
 
-## 🌟 Features
+- **Invoicing & Billing**: Create invoices and manage client payment status
+- **Expense Tracking**: Track operational costs and daily expenses
+- **Client & Vendor Management**: Maintain contact records and transaction histories
+- **Financial Analytics**: Reports for cash flow, revenue summaries, and expense tracking
 
-- **Invoicing & Billing**: Generate customized invoices and track client payment statuses.
-- **Expense Tracking**: Easily log operational costs and monitor daily spending.
-- **Client & Vendor Management**: Maintain unified contact records for seamless transaction history.
-- **Financial Analytics**: Real-time summaries of revenue, cash flow, and financial reports.
+## Tech Stack
 
----
+- **Backend**: PHP (Laravel Framework)
+- **Frontend**: Livewire, Blade, Tailwind CSS
+- **Database**: MySQL / MariaDB
 
-## 🚀 Quick Start (Local Setup)
+## Local Setup
 
 ### Prerequisites
-- PHP 8.1+
+
+- PHP 8.1 or higher
 - Composer
 - Node.js & npm
 - MySQL / MariaDB
 
-### Installation Steps
+### Installation
 
-1. **Clone the repository**
+1. Clone the repository:
    ```bash
-   git clone https://github.com/shakyamtech/laravel-accounting-app.git
-   cd laravel-accounting-app
+   git clone https://github.com/shakyamtech/laravel-accounting-system.git
+   cd laravel-accounting-system
    ```
 
-2. **Install Dependencies**
+2. Install dependencies:
    ```bash
    composer install
-   npm install
+   npm install && npm run build
    ```
 
-3. **Configure Environment**
+3. Environment configuration:
    ```bash
    cp .env.example .env
    php artisan key:generate
    ```
-   *Update your database credentials (`DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`) in `.env`.*
+   Configure your database credentials (`DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`) in `.env`.
 
-4. **Database Setup**
+4. Database setup:
    ```bash
    php artisan migrate
    ```
 
-5. **Run Local Server**
+5. Run development server:
    ```bash
    php artisan serve --port=8002
    ```
-   Open `http://localhost:8002/auth/login` in your browser.
 
----
+Access the app at [http://localhost:8002/auth/login](http://localhost:8002/auth/login).
 
-## 🛠 Tech Stack
+## License
 
-- **Backend**: PHP 8.1+ / Laravel Framework
-- **Frontend**: Blade, Livewire, Tailwind CSS
-- **Database**: MySQL
+This project is released under the [BSL License](LICENSE.txt).
 
----
-
-## 📄 License
-
-Open-source project released under the [BSL License](LICENSE.txt).
